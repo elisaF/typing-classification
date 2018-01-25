@@ -2,7 +2,7 @@ __author__ = 'elisa'
 import logging
 import pickle
 import os, sys
-from feature_extraction_common_spanish import FeatureExtractionCommon
+from feature_extraction_common import FeatureExtractionCommon
 
 logger = logging.getLogger('feature_extraction_parkinsons')
 logger.setLevel(logging.DEBUG)
