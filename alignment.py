@@ -10,7 +10,7 @@ class ErrorAligner:
       Should Intended character aligned to nothing in the typed be ignored? - assumed to be an omission and thus ignored (justification - we are interested in errors of commission not errors of omission).
     """
 
-    def __init__(self, output_file, language="english"):
+    def __init__(self, input_file, output_file, language="english"):
         """
         Constructor.
         :param
@@ -19,6 +19,7 @@ class ErrorAligner:
         self.idmap = None
         if language.lower() == "english":
             self.idmap = self.create_idmap()
+        self.input_file = input_file
         self.output_file = output_file
         self.gap_penalty = -2  # both for insertion and deletion
 
@@ -161,7 +162,7 @@ class ErrorAligner:
 
         self.outputforanalysis(align1, align2, seq2, itempartid, times, seq1)
 
-    def parse_errors(self, input_file):
+    def parse_errors(self):
         # write header
         header = "ID\tRaw Typed\tIntended\tOriginal Position of word\tRaw Typed Context\tIntended Context\tIKI_FOR_ERROR\n"
         with open(self.output_file, 'wb') as out:
@@ -177,7 +178,7 @@ class ErrorAligner:
         keypresstimes = {}
         charcount = 0
 
-        f = pandas.ExcelFile(input_file)
+        f = pandas.ExcelFile(self.input_file)
         df = f.parse(f.sheet_names[0])
         l = 0
 
@@ -270,9 +271,10 @@ if __name__ == '__main__':
 
     input_file = sys.argv[1]
     output_file = sys.argv[2]
+
     if len(sys.argv) > 3:
         language = sys.argv[3]
-        aligner = ErrorAligner(output_file, language)
+        aligner = ErrorAligner(input_file, output_file, language)
     else:
-        aligner = ErrorAligner(output_file)
-    aligner.parse_errors(input_file)
+        aligner = ErrorAligner(input_file, output_file)
+    aligner.parse_errors()

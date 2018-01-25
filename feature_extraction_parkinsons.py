@@ -1,7 +1,7 @@
 __author__ = 'elisa'
 import logging
 import pickle
-import os
+import os, sys
 from feature_extraction_common_spanish import FeatureExtractionCommon
 
 logger = logging.getLogger('feature_extraction_parkinsons')
@@ -89,3 +89,25 @@ class FeatureExtractor:
         # add feature here
         pickle.dump(df, open(self.pickle_file, "wb"))
         self.fe.save_data_frame(df, self.output_file)
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print("FORMAT: language")
+        sys.exit(1)
+
+    language = sys.argv[1]
+    if language.lower() == "english":
+        lm_file = 'resources' + os.path.sep + "EnglishEuroparl.chars_parkinsons_casefolded.lm"
+    elif language.lower() == "spanish":
+        lm_file = 'resources' + os.path.sep + "SpanishEuroparl-noShift.lm"
+    else:
+        print "Language " + language + " is not supported yet!"
+        sys.exit(1)
+
+    input_file = 'input'+os.path.sep+'errors_parkinsons_' + language.lower() + '.txt'
+    output_file = 'output'+os.path.sep + 'output_parkinsons_' + language.lower() + '.csv'
+    pickle_file = 'output'+os.path.sep + 'parkinsons_' + language.lower() + '.p'
+        
+    feature_extractor = FeatureExtractor(language, input_file, output_file, pickle_file, lm_file)
+    feature_extractor.run_extractor()
