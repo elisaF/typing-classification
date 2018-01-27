@@ -1,46 +1,39 @@
 # Features
-In order to describe the features, I first define 
+For describing these features, we define the mistyped character as the first character of the misspelled word that is out of alignment when comparing the misspelled and correct word. The aligned character is the corresponding character in the correct word. For example, in the pair fpr-for, the mistyped character is p and the aligned character is o.
 
 ## Keyboard distance: 
-These features are based on the distance between two keys on the keyboard. First, the keys are mapped onto a grid. Depending on which language you use, a different keyboard grid is used.
-To see the grids, check out keyboard_distance.py. The distance between two keys is then calculated as the following:
-  -if keys are orthogonal to each other: 1
-  -if keys are on secondary diagonal (top-right to bottom-left): 1
-  -other location: sqrt(x^2 + y^2), where x is horizontal distance and y is vertical distance
-  -if keys are not on map, then return the distance to the average location (middle of the keyboard)
-
-NOTE: Characters with diacritics that are not on the keyboard are mapped to their diacriticless counterparts (e.g. é -> e)
-
-Characters that are not on the map:
-  -ø, æ, ß
-  -Non-Latin characters, including Chinese, Greek, Cyrillic characters 
+The layout of the QWERTY keyboard is mapped to a grid-like matrix. The distance between the same key is 0, between orthogonal keys is 1, between keys that are on a secondary diagonal (top-right to bottom-left) is 1, and otherwise is calculated as the euclidean distance. These distances are meant to favor keys that share an edge with each other.
+Before mapping, a character is normalized, unless the un-normalized character exists in the matrix (for example, é is mapped to e, ñ is mapped to ñ for Spanish). If a character is not found in the matrix, then the average location (middle of the keyboard) is used as its location, and the distance is calculated as above. 
+Characters that are not on the map are: ø, æ, ß, non-Latin characters including Chinese, Greek, Cyrillic characters.
 
 ### Feature names:
--`keyboard_distance_typed` distance between mistyped key and the following typed key
--'keyboard_distance_typed_before` 
--`keyboard_distance_same` 
--`keyboard_distance_intended`
--`keyboard_distance_intended2`
--`keyboard_distance_intended_before`
--`keyboard_distance_intended_before2`
+-`keyboard_distance_same` distance between the mistyped character and the aligned character
+-`keyboard_distance_typed_after` distance between the mistyped character and the typed character 1 position after
+-`keyboard_distance_typed_before` distance between the mistyped character and the typed character 1 position before
+-`keyboard_distance_intended_after` distance between the mistyped character and the aligned character 1 position after
+-`keyboard_distance_intended_before` distance between the mistyped character and the aligned character 1 position before
+-`keyboard_distance_intended_after2` distance between the mistyped character and the aligned character 2 positions after
+-`keyboard_distance_intended_before2` distance between the mistyped character and the aligned character 2 positions before
         
 ## Ngram probabilities:
+A character-level language model is created using SriLM 1.7.2, one from the English Europarl corpus (Koehn, 2005) combined with all the English patient data and the other from the Spanish version. Due to a bug in SriLM where the `-tolower` option mangles the multi-byte utf-8 encoded characters, the input is case-folded in a preprocessing step (see `create_vocab_for_lm` in `helper_functions.py`).
 
--`ngram1_prob_typed`
--`ngram2_prob_typed_before`
--`ngram3_prob_typed_before`
--`ngram4_prob_typed_before`
--`ngram5_prob_typed_before`
--`ngram2_prob_typed`
--`ngram3_prob_typed`
--`ngram4_prob_typed`
--`ngram5_prob_typed`
--`ngram1`
--`ngram2_before`
--`ngram3_before`
--`ngram4_before`
--`ngram5_before`
--`ngram2`
--`ngram3`
--`ngram4`
--`ngram5`
+### Feature names:
+-`ngram1_prob_typed` log probability of mistyped character
+-`ngram1_prob_intended` log probability of aligned character
+-`ngram2_prob_typed_before` log probability of character 2-gram, ending at mistyped character
+-`ngram3_prob_typed_before` log probability of character 3-gram, ending at mistyped character
+-`ngram4_prob_typed_before` log probability of character 4-gram, ending at mistyped character
+-`ngram5_prob_typed_before` log probability of character 5-gram, ending at mistyped character
+-`ngram2_prob_typed_after` log probability of character 2-gram, starting at mistyped character
+-`ngram3_prob_typed_after` log probability of character 3-gram, starting at mistyped character
+-`ngram4_prob_typed_after` log probability of character 4-gram, starting at mistyped character
+-`ngram5_prob_typed_after` log probability of character 5-gram, starting at mistyped character
+-`ngram2_intended_before` log probability of character 2-gram, ending at aligned character
+-`ngram3_intended_before` log probability of character 3-gram, ending at aligned character
+-`ngram4_intended_before` log probability of character 4-gram, ending at aligned character
+-`ngram5_intended_before` log probability of character 5-gram, ending at aligned character
+-`ngram2_intended_after` log probability of character 2-gram, starting at aligned character
+-`ngram3_intended_after` log probability of character 3-gram, starting at aligned character
+-`ngram4_intended_after` log probability of character 4-gram, starting at aligned character
+-`ngram5_intended_after` log probability of character 5-gram, starting at aligned character 
