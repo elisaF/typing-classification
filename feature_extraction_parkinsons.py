@@ -28,8 +28,7 @@ class FeatureExtractor:
         self.fe.save_data_frame(df, self.output_file)
 
     def extract_features(self, df):
-        # preprocess data first
-
+        ## preprocess data first
         # strip off trailing spaces
         df['Raw Typed'] = df['Raw Typed'].str.rstrip(' ')
         df['Intended'] = df['Intended'].str.rstrip(' ')
@@ -40,7 +39,7 @@ class FeatureExtractor:
         df['Error Context'], df['Position of word'] = zip(*temp_df)
         df = self.fe.drop_bad_rows(df)
 
-        # now extract features
+        ## now extract features
         df["diff_length"] = df["Intended"].str.len() - df["Typed"].str.len()
         df['error_start_typed'] = df.apply(self.fe.get_error_index, axis=1)
         df['error_start_intended'] = df['error_start_typed']
@@ -49,7 +48,8 @@ class FeatureExtractor:
         df['error_end_intended'] = df.apply(self.fe.error_end_intended, axis=1)
         df['edit_distance'] = df.apply(self.fe.get_edit_distance, axis=1)
         pickle.dump(df, open(self.pickle_file, "wb"))
-        print('created  base features')
+        print('Created  base features')
+        logger.debug('Created  base features')
 
         df['keyboard_distance_typed_after'] = df.apply(self.fe.keyboard_distance_typed_after, axis=1)
         df['keyboard_distance_typed_before'] = df.apply(self.fe.keyboard_distance_typed_before, axis=1)
@@ -58,8 +58,9 @@ class FeatureExtractor:
         df['keyboard_distance_intended_after2'] = df.apply(self.fe.keyboard_distance_intended_after2, axis=1)
         df['keyboard_distance_intended_before'] = df.apply(self.fe.keyboard_distance_intended_before, axis=1)
         df['keyboard_distance_intended_before2'] = df.apply(self.fe.keyboard_distance_intended_before2, axis=1)
-        pickle.dump(df, open(self.pickle_file))
+        pickle.dump(df, open(self.pickle_file, 'w'))
         print('First dump')
+        logger.debug('First dump')
 
         df['ngram1_prob_typed'] = df.apply(self.fe.ngram1_prob_typed, axis=1)
         df['ngram2_prob_typed_before'] = df.apply(self.fe.ngram2_prob_typed_before, axis=1)
@@ -82,6 +83,7 @@ class FeatureExtractor:
         df['ngram5_prob_intended_after'] = df.apply(self.fe.ngram5_prob_intended_after, axis=1)
         pickle.dump(df, open(self.pickle_file, "wb"))
         print('ngrams done')
+        logger.debug('ngrams done')
         return df
 
     def add_feature(self):

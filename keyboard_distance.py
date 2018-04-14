@@ -4,9 +4,9 @@ import numpy as np
 import helper_functions as helper
 import logging
 
-logger = logging.getLogger('keyboardDistance')
+logger = logging.getLogger('keyboard_distance')
 logger.setLevel(logging.DEBUG)
-fh = logging.FileHandler('keyboardDistance.log')
+fh = logging.FileHandler('keyboard_distance.log')
 logger.addHandler(fh)
 
 # QWERTY Keyboard Map for US English
@@ -141,7 +141,7 @@ class KeyboardDistance:
         return x, y
 
     def calculate_distance(self, first_char, second_char):
-        logger.debug("calculate distance for: ", first_char, "; ", second_char)
+        logger.debug("calculate distance for %s; %s" % (first_char, second_char))
         if first_char == second_char:
             logger.debug("same")
             dist = 0
