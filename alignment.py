@@ -1,5 +1,5 @@
 import sys, re, pandas
-
+import codecs
 
 class ErrorAligner:
     """
@@ -62,8 +62,8 @@ class ErrorAligner:
                             typedstringposition + int(finderrorlocation(targetwordtoprint, typedwordtoprint)))
                         text = itempartid + "-" + str(wordcount) + "\t" + typedwordtoprint + "\t" + targetwordtoprint + \
                                "\t" + position + "\t" + typedseq + "\t" + seq2 + "\t" + str(times[charindex])+"\n"
-                        with open(self.output_file, 'ab') as out:
-                            out.write(text.replace('.0', '').encode('utf8'))
+                        with codecs.open(self.output_file, 'ab', 'utf-8') as out:
+                            out.write(text.replace('.0', ''))
 
                 targetword = ""
                 typedword = ""
@@ -96,8 +96,8 @@ class ErrorAligner:
                                    targetwordtoprint + "\t" + position + "\t" + typedseq + "\t" + seq2 + "\t" + \
                                    str(times[charindex]) + "\n"
                        
-                        with open(self.output_file, 'ab') as out:                            
-                            out.write(text.replace('.0', '').encode('utf8'))
+                        with codecs.open(self.output_file, 'ab', 'utf-8') as out:                            
+                            out.write(text.replace('.0', ''))
                           
             else:
                 if align1[i] != "^":
@@ -165,8 +165,8 @@ class ErrorAligner:
     def parse_errors(self):
         # write header
         header = "ID\tRaw Typed\tIntended\tOriginal Position of word\tRaw Typed Context\tIntended Context\tIKI_FOR_ERROR\n"
-        with open(self.output_file, 'wb') as out:
-            out.write(header.encode('utf8'))
+        with codecs.open(self.output_file, 'wb', 'utf-8') as out:
+            out.write(header)
             
         lastpartid = -1
         lastsentid = -1

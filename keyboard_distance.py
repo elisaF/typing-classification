@@ -58,27 +58,27 @@ class KeyboardDistance:
         self.initialize(language)
 
     def initialize(self, language):
-        spanish_lower = np.matrix([['º', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', "'", '¡'],
-                                   [None,'q','w','e','r','t','y','u','i','o','p',"`",'+'],
-                                   [None,'a','s','d','f','g','h','j','k','l','ñ',"´",'ç'],
-                                   ['<','z','x','c','v','b','n','m',',','.','-',None,None],
-                                   [None,None,None,' ',' ',' ',' ',' ',None,None,None,None,None]], dtype='S8')
-        spanish_upper = np.matrix([['ª','!','"','·','$','%','&','/','(',')','=','?','¿'],
-                         [None,'Q','W','E','R','T','Y','U','I','O','P','^','*'],
-                         [None,'A','S','D','F','G','H','J','K','L','Ñ','¨','Ç'],
-                         ['>','Z','X','C','V','B','N','M',';',':','_',None,None],
-                         [None,None,None,' ',' ',' ',' ',' ',None,None,None,None,None]], dtype='S8')
+        spanish_lower = np.matrix([[u'º', u'1', u'2', u'3', u'4', u'5', u'6', u'7', u'8', u'9', u'0', u"'", u'¡'],
+                                   [None,u'q',u'w',u'e',u'r',u't',u'y',u'u',u'i',u'o',u'p',u"`",u'+'],
+                                   [None,u'a',u's',u'd',u'f',u'g',u'h',u'j',u'k',u'l',u'ñ',u"´",u'ç'],
+                                   [u'<',u'z',u'x',u'c',u'v',u'b',u'n',u'm',u',',u'.',u'-',None,None],
+                                   [None,None,None,u' ',u' ',u' ',u' ',u' ',None,None,None,None,None]], dtype='U')
+        spanish_upper = np.matrix([[u'ª',u'!',u'"',u'·',u'$',u'%',u'&',u'/',u'(',u')',u'=',u'?',u'¿'],
+                         [None,u'Q',u'W',u'E',u'R',u'T',u'Y',u'U',u'I',u'O',u'P',u'^',u'*'],
+                         [None,u'A',u'S',u'D',u'F',u'G',u'H',u'J',u'K',u'L',u'Ñ',u'¨',u'Ç'],
+                         [u'>',u'Z',u'X',u'C',u'V',u'B',u'N',u'M',u';',u':',u'_',None,None],
+                         [None,None,None,u' ',u' ',u' ',u' ',u' ',None,None,None,None,None]], dtype='U')
 
-        english_lower = np.matrix([['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=',None],
-                                   [None,'q','w','e','r','t','y','u','i','o','p','[',']','\\'],
-                                   [None,'a','s','d','f','g','h','j','k','l',';',"'",None,None],
-                                   [None,'z','x','c','v','b','n','m',',','.','/',None,None,None],
-                                   [None,None,None,' ',' ',' ',' ',' ',None,None,None,None,None,None]], dtype='S8')
-        english_upper = np.matrix([['~','!','@','#','$','%','^','&','*','(',')','_','+',None],
-                                   [None,'Q','W','E','R','T','Y','U','I','O','P','{','}','|'],
-                                   [None,'A','S','D','F','G','H','J','K','L',':','"',None,None],
-                                   [None,'Z','X','C','V','B','N','M','<','>','?',None,None,None],
-                                   [None,None,None,' ',' ',' ',' ',' ',None,None,None,None,None,None]], dtype='S8')
+        english_lower = np.matrix([[u'`', u'1', u'2', u'3', u'4', u'5', u'6', u'7', u'8', u'9', u'0', u'-', u'=',None],
+                                   [None,u'q',u'w',u'e',u'r',u't',u'y',u'u',u'i',u'o',u'p','[',']','\\'],
+                                   [None,u'a',u's',u'd',u'f',u'g',u'h',u'j',u'k',u'l',u';',u"'",None,None],
+                                   [None,u'z',u'x',u'c',u'v',u'b',u'n',u'm',u',',u'.',u'/',None,None,None],
+                                   [None,None,None,u' ',u' ',u' ',u' ',u' ',None,None,None,None,None,None]], dtype='U')
+        english_upper = np.matrix([[u'~',u'!',u'@',u'#',u'$',u'%',u'^',u'&',u'*',u'(',u')',u'_',u'+',None],
+                                   [None,u'Q',u'W',u'E',u'R',u'T',u'Y',u'U',u'I',u'O',u'P',u'{',u'}',u'|'],
+                                   [None,u'A',u'S',u'D',u'F',u'G',u'H',u'J',u'K',u'L',u':',u'"',None,None],
+                                   [None,u'Z',u'X',u'C',u'V',u'B',u'N',u'M',u'<',u'>',u'?',None,None,None],
+                                   [None,None,None,' ',' ',' ',' ',' ',None,None,None,None,None,None]], dtype='U')
 
         if language.lower() == "english":
             self.qwerty_grid = english_lower
