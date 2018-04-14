@@ -265,7 +265,7 @@ def finderrorlocation(intendedword, typedword):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 3:
+    if len(sys.argv) > 4 or len(sys.argv) < 3:
         print("FORMAT: input_file output_file [language]")
         sys.exit(1)
 
