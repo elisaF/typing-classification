@@ -7,4 +7,6 @@ Classifying typing errors. For details on the features, read [here](features.md)
        `python alignment.py input_file output_file [language]`
 2. extract the features from the typing errors (detailed description of features is [here](features.md)):
        `python feature_extraction_parkinsons.py language`
-3. classify the features
+3. (optional) extract the individual keystrokes if using them
+	`python alignment-outputbycharacter.py input_file output_file [language]`
+4. classify the features
