@@ -17,8 +17,8 @@ class ErrorAligner:
             output_file: file name to write aligned errors to.
         """
         self.idmap = None
-        if language.lower() == "english":
-            self.idmap = self.create_idmap()
+       # if language.lower() == "english":
+       #    self.idmap = self.create_idmap()
         self.input_file = input_file
         self.output_file = output_file
         self.gap_penalty = -2  # both for insertion and deletion
@@ -33,7 +33,7 @@ class ErrorAligner:
                  '189': '24', '190': '25a', '191': '25b', '192': '26a', '193': '26b', '194': '27a', '195': '27b',
                  '196': '28a', '197': '28b', '198': '29a', '199': '29b', '200': '30a', '201': '30b', '202': '31a',
                  '203': '32a', '204': '32b', '205': '31b', '206': '33a', '207': '33b', '208': '34a', '209': '34b',
-                 '210': '35a', '211': '35b', '212': '36a', '213': '36b', '214': '37a', '215': '37b', '216': '38a',
+                '210': '35a', '211': '35b', '212': '36a', '213': '36b', '214': '37a', '215': '37b', '216': '38a',
                  '217': '39a', '218': '39b', '219': '38b', '220': '40a', '221': '40b', '222': '41a', '223': '41b',
                  '224': '42a', '225': '42b', '226': '43a', '227': '43b', '229': '44a', '230': '44b'}
         return idmap
@@ -167,7 +167,7 @@ class ErrorAligner:
         header = "ID\tRaw Typed\tIntended\tOriginal Position of word\tRaw Typed Context\tIntended Context\tIKI_FOR_ERROR\n"
         with codecs.open(self.output_file, 'wb', 'utf-8') as out:
             out.write(header)
-            
+          
         lastpartid = -1
         lastsentid = -1
         lastrespid = -1
